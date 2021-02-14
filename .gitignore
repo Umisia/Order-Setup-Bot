@@ -1,0 +1,12 @@
+email_templates
+.idea
+.pytest_cache
+__pycache__
+src/OrderSetup.xlsm
+src/config.py
+src/order_setup.log
+tests/.coverage
+tests/data
+tests/order_setup.log
+tests/test.xlsm
+tests/testing.xlsm
