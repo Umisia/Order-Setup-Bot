@@ -449,7 +449,7 @@ class SpreadsheetOrder:
             return "opening"
 
         # step 2. approved, no follow up or skipped approved and went straight to confirm
-        elif (self.data["Status"] == "Approved" and self.data["Last follow up"] == "-") or (self.data["Status"] == "Confirmed" and self.data["Last follow up"] == "-"):
+        elif (self.data["Status"] == "Approved" and self.data["Last follow up"] == "-" and time_delta(self.data["Opening email"], datetime.datetime.now()) > 1) or (self.data["Status"] == "Confirmed" and self.data["Last follow up"] == "-"):
             log.info(f'FOLLOW UP: APPROVED {self.data["Sales Order"]}')
             self.leave_draft_email(self.choose_email_template("approved"))
             send_click_message(self.token, f"{self.data['Sales Order']}: #{int(self.data['Ticket#'])}: Approved draft left.\n{get_link_to_ticket(self.data['TicketID'])}")
@@ -459,7 +459,10 @@ class SpreadsheetOrder:
         elif self.data["Status"] == "Confirmed":
             today_date = datetime.datetime.now().strftime(" %d-%m-%Y")
             #dispatch deadline passed
-            if self.data["Dispatch deadline"] <= today_date:
+
+            if datetime.datetime.strptime(self.data["Dispatch deadline"], " %d-%m-%Y") <= datetime.datetime.now():
+                print("weszedl", today_date)
+                input()
                 log.info(f"FOLLOW UP: DISPATCHING {self.data['Sales Order']}")
                 self.leave_draft_email(self.choose_email_template("dispatch"))
                 send_click_message(self.token, f"{self.data['Sales Order']}: #{int(self.data['Ticket#'])}: Dispatching draft left.\n{get_link_to_ticket(self.data['TicketID'])}")
