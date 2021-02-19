@@ -34,10 +34,6 @@ src\orders.py--------------335-----1------99%<br>
 src\send_emails.py-------26-----9------27%<br>
 src\spreadsheet_util.py--94-----1------99%<br>
 src\zoho_oauth.py--------13-----0------100%<br>
-conftest.py-------------------24-----0------100%<br>
-test_db_util.py--------------18-----0------100%<br>
-test_main.py-----------------13-----0------100%<br>
-test_orders.py--------------130----0------100%<br>
-test_spreadsheet_util.py-63-----0------100%<br>
+
 
 
