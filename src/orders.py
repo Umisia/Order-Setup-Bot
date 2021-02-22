@@ -333,12 +333,10 @@ class SpreadsheetOrder:
         ticket_status = json_ticket["data"][0]["status"]
         ticket_id = json_ticket["data"][0]["id"]
         log.info(f'get_ticket_data ({response.status_code}): {ticket_status}, {ticket_id}')
-        log.info(f'get_ticket_data ({response.status_code}): {ticket_id}')
 
         return ticket_id, ticket_status
 
-    def get_ticket_resolution(self):
-        ticket_id, _ = self.get_ticket_data()
+    def get_ticket_resolution(self, ticket_id):
         response = requests.get("https://desk.zoho.com/api/v1/tickets/" + ticket_id + "/resolution",
                                 headers=self.request_head)
         json_ticket = json.loads(response.text)
@@ -346,8 +344,8 @@ class SpreadsheetOrder:
         log.debug(f'getTicketData resolution ({response.status_code}): {resolution}')
         return resolution
 
-    def check_res_for_details(self):
-        resolution = self.get_ticket_resolution()
+    def check_res_for_details(self, tick_id):
+        resolution = self.get_ticket_resolution(tick_id)
         keywords = ["details", "received", "printed"]
         if resolution:
             for key in keywords:

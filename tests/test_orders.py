@@ -77,7 +77,6 @@ class TestNewOrder:
         assert orders.delete_ticket(inv_token, new_order.order_details['TicketID']) == 204
 
 class TestSpreadsheetOrder:
-    @pytest.mark.tegoteraz
     def test_get_postcode(self, inv_token, spr_order_data):
         """extracts postcode"""
         spr_order = orders.SpreadsheetOrder(spr_order_data['data'], inv_token)
@@ -88,7 +87,7 @@ class TestSpreadsheetOrder:
         spr_order = orders.SpreadsheetOrder(spr_order_data['data'], inv_token)
         assert spr_order.get_ticket_data() == tuple(spr_order_data['expected']['ticket-data'])
 
-    def test_get_ticket_resolution(self, inv_token, spr_order_data):
+    def test_get_ticket_resolution(self, inv_token, spr_order_data, wb):
         """gets ticket resolution string"""
         spr_order = orders.SpreadsheetOrder(spr_order_data['data'], inv_token)
         assert spr_order.get_ticket_resolution() == spr_order_data['expected']['resolution']

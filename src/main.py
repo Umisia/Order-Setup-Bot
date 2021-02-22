@@ -97,16 +97,6 @@ if __name__ == "__main__":
                                 spr_order.do_cpd()
                             else:
                                 wb.move_to_closed(row)
-                        #mark done if ticket is closed
-                        elif wb.get_value(row, "Ticket#") != "-":
-                            spr_order = orders.SpreadsheetOrder(wb.get_order_data(row), token)  # dict
-                            _, ticket_status = spr_order.get_ticket_data()
-                            if ticket_status == "Closed":
-                                wb.write_data(row, "Prepared", "done")
-                                if spr_order.check_res_for_details():  # True when details received
-                                    wb.write_data(row, "Details received", "Yes")
-                                else:
-                                    wb.write_data(row, "Details received", "No")
 
                     #not closed and not completed orders
                     elif wb.get_value(row, "Prepared") != "done":
@@ -114,6 +104,19 @@ if __name__ == "__main__":
 
                         if spr_order.data["Type"] == "Setup":
                             log.info(f"{spr_order.data['Sales Order']}: Setup order")
+
+                            # mark done if ticket is closed
+                            if spr_order.data["Ticket#"] != "-":
+                                ticket_id, ticket_status = spr_order.get_ticket_data()
+                                if ticket_status == "Closed":
+                                    log.info("ticket closed")
+                                    wb.write_data(row, "Prepared", "done")
+                                    if spr_order.check_res_for_details(ticket_id):  # True when details received
+                                        wb.write_data(row, "Details received", "Yes")
+                                    else:
+                                        wb.write_data(row, "Details received", "No")
+                                continue
+
                             step = spr_order.do_setup_order(db)
                             log.info(f"step: {step}")
 
