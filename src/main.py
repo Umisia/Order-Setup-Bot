@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
                         open_orders = wb.get_all_spreadsheet_orders()  # update variable
               
-                print("-----------------------Spreadhseet------------------------")
+                log.info("-----------------------Spreadhseet------------------------")
                 # loop from the bottom to move closed orders to 2nd wb tab
                 for row in reversed(range(2, wb.get_last_row() + 1)):
                     wb_status = wb.get_value(row, 'Status')

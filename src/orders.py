@@ -346,6 +346,7 @@ class SpreadsheetOrder:
 
     def check_res_for_details(self, tick_id):
         resolution = self.get_ticket_resolution(tick_id)
+        log.debug(f"resolution: {resolution}")
         keywords = ["details", "received", "printed"]
         if resolution:
             for key in keywords:
